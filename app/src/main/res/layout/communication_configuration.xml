@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <TextView 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_x="10dp"
+		android:layout_y="10dp"
+		android:text="@string/tvScanApUp_text"
+		android:textSize="20sp"/>
+	<TextView 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_x="170dp"
+		android:layout_y="10dp"
+		android:text="@string/tvTwoPoint_text"
+		android:textSize="20sp"/>
+	<EditText
+	    android:id="@+id/etScanApUp" 
+		android:layout_width="150dp"
+		android:layout_height="wrap_content"
+		android:layout_x="200dp"
+		android:layout_y="5dp"
+		android:inputType="number"
+		android:hint="@string/etScanApUp_text"
+		android:textSize="20sp"/>
+	
+	<TextView 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_x="10dp"
+		android:layout_y="60dp"
+		android:text="@string/tvApListUp_text"
+		android:textSize="20sp"/>
+	<TextView 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_x="170dp"
+		android:layout_y="60dp"
+		android:text="@string/tvTwoPoint_text"
+		android:textSize="20sp"/>
+	<EditText
+	    android:id="@+id/etApListUp" 
+		android:layout_width="150dp"
+		android:layout_height="wrap_content"
+		android:layout_x="200dp"
+		android:layout_y="55dp"
+		android:inputType="number"
+		android:hint="@string/etApListUp_text"
+		android:textSize="20sp"/>
+    
+	<Button
+	    android:id="@+id/btSet_Communication" 
+		android:layout_width="100dp"
+		android:layout_height="wrap_content"
+		android:layout_x="60dp"
+		android:layout_y="400dp"
+		android:text="@string/btSet_text"
+		android:textSize="20sp"/>
+
+	<Button
+	    android:id="@+id/btCancel_Communication" 
+		android:layout_width="100dp"
+		android:layout_height="wrap_content"
+		android:layout_x="190dp"
+		android:layout_y="400dp"
+		android:text="@string/btCancel_text"
+		android:textSize="20sp"/>
+
+</AbsoluteLayout>

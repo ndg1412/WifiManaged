@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Managed Wifi Application</string>
+    <string name="page_user_name">User Information</string>
+    <string name="page_com_name">Communication Configuration</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="btUserInCon_text">User Information Configuration</string>
+    <string name="btComCon_text">Communication Configuration</string>
+    <string name="swProcess_text">Select run process</string>
+    <string name="tvAppId_text">Application ID</string>
+    <string name="etAppId_text">(Unique ID)</string>
+    <string name="tvTwoPoint_text">:</string>
+    <string name="tvMacAddr_text">Mac Address</string>
+    <string name="etMacAddr_text">AA:BB:CC:DD:EE:FF</string>
+    <string name="tvPhoneNum_text">Sim UID</string>
+    <string name="etPhoneNum_text">010-xxxx-xxxx</string>
+    <string name="btResetToDefault_text">Reset to Default</string>
+    <string name="tvUserId_text">User ID</string>
+    <string name="etUserId_text">input user</string>
+    <string name="tvPassword_text">Password</string>
+    <string name="etPassword_text">input password</string>
+    <string name="btSet_text">Set</string>
+    <string name="btCancel_text">Cancel</string>
+    <string name="btBack_text">Back</string>
+    <string name="tvScanApUp_text">Scan AP Update</string>
+    <string name="etScanApUp_text">(In Second)</string>
+    <string name="tvApListUp_text">AP List Update</string>
+    <string name="etApListUp_text">(In Second)</string>
+
+</resources>
