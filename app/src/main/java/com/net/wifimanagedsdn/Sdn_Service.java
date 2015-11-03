@@ -184,7 +184,7 @@ public class Sdn_Service extends Service{
 			if(wes != null)
 				unregisterReceiver(wes);
 			
-			/*if(!wifi.isWifiEnabled())
+			if(!wifi.isWifiEnabled())
 				wifi.setWifiEnabled(true);
 			Log.d(TAG, "giang dbg: turn on wifi ==========================>");
 			Thread.sleep(1000);
@@ -197,7 +197,7 @@ public class Sdn_Service extends Service{
 				boolean bTurn = wifi.setWifiEnabled(false);
 				Log.d(TAG, "giang dbg: turn off wifi bTurn = " + bTurn);
 			}
-			Log.d(TAG, "giang dbg: turn on wifi ==========================>");*/
+			Log.d(TAG, "giang dbg: turn on wifi ==========================>");
 			mHandlerAlertCon_Req_Fail.removeMessages(0);
 			mHandlerToast.removeMessages(0);
 			mHandlerAlertDisConnect.removeMessages(0);
@@ -216,11 +216,17 @@ public class Sdn_Service extends Service{
 					
 					wifi.disconnect();
 					try {
-						Thread.sleep(6000);
+						Thread.sleep(3000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					for(WifiConfiguration conf : wifi.getConfiguredNetworks()) {
+						boolean bCheck = wifi.removeNetwork(conf.networkId);
+						Log.d(TAG, "ssid config: " + conf.SSID + ", id = " + conf.networkId + ", remove = " + bCheck);
+
+					}
+					wifi.saveConfiguration();
 				}
 				Log.d(TAG, "number AP in db: " + db.getAllWifi().size());
 				if(db.getAllWifi().size() > 0) {
@@ -742,7 +748,7 @@ public class Sdn_Service extends Service{
 					if(!strinfoSsid.contains(strSsid) || !strinfoMac.equals(strMac) || !nwNetwork.isWifiConnected()) {
 						Log.d(TAG, "============================not contain=========================");
 						wifi.disconnect();
-						Thread.sleep(5000);
+						Thread.sleep(3000);
 						WifiConfiguration wc = new WifiConfiguration();
 						ConfigurationSecuritiesV8 conf = new ConfigurationSecuritiesV8();
 						String sec = String.valueOf(conf.getSecurity("WPA-EAP"));
