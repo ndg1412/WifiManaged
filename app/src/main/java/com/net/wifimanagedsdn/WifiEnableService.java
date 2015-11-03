@@ -125,7 +125,7 @@ public class WifiEnableService extends BroadcastReceiver {
 				e.printStackTrace();
 			}
 		}
-		/*String action = intent.getAction();
+		String action = intent.getAction();
 //		Log.d(TAG, "action: " + action);
 		Bundle bun = intent.getExtras();
 //		Log.d(TAG, "bundle: " + bun);
@@ -140,12 +140,14 @@ public class WifiEnableService extends BroadcastReceiver {
 					Log.d(TAG, "wifi info ssid :" + info.getSSID());
 					Log.d(TAG, "strGBestAP: " + Sdn_Service.strGBestAP);
 					if((!Sdn_Service.brnWifiManaged) && (!Sdn_Service.bTimerScan) &&
-							(info != null) && (Sdn_Service.strGBestAP != null) &&
-							(!info.getSSID().contains(Sdn_Service.strGBestAP)) && (iDemManual == 0)) {
+							(info != null) && (((Sdn_Service.strGBestAP != null) &&
+							(!info.getSSID().contains(Sdn_Service.strGBestAP))) || (Sdn_Service.strGBestAP == null)) && (iDemManual == 0)) {
 						Log.d(TAG, "---------------------wifi connect success by manual--------------------------->");
 						Toast.makeText(context, "User change wifi network by manual", Toast.LENGTH_LONG).show();
 						if(Sdn_Service.iIdBestAp != -1) {
-							wifi.removeNetwork(Sdn_Service.iIdBestAp);
+							boolean bCheck = wifi.removeNetwork(Sdn_Service.iIdBestAp);
+							Log.d(TAG, "connect manual by user remove previous profile: " + bCheck);
+							wifi.saveConfiguration();
 							Sdn_Service.iIdBestAp = -1;
 						}
 						iDemManual++;
@@ -167,8 +169,15 @@ public class WifiEnableService extends BroadcastReceiver {
 								thWifiManual = null;
 							}
 							Thread.sleep(2000);
-							thWifiManual = new Thread(rnWifiManual);
-							thWifiManual.start();
+							Sdn_Service.iIdBestAp = -1;
+							Sdn_Service.strGBestAP = null;
+							Sdn_Service.iInitconn = 0;
+							Sdn_Service.brnWifiManaged = true;
+							Sdn_Service.bttReqManagedApList = true;
+							Sdn_Service.bttRepScanAp = true;
+							Sdn_Service.bRun = true;
+							Sdn_Service.thWifiManaged = new Thread(Sdn_Service.rnWifiManaged);
+							Sdn_Service.thWifiManaged.start();
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -194,6 +203,7 @@ public class WifiEnableService extends BroadcastReceiver {
 //								Log.d(TAG, "ssid config: " + conf.SSID);
 								if(conf.SSID.contains(Sdn_Service.strGBestAP)) {
 									wifi.removeNetwork(conf.networkId);
+									wifi.saveConfiguration();
 									break;
 								}
 							}								
@@ -219,7 +229,7 @@ public class WifiEnableService extends BroadcastReceiver {
 									Sdn_Service.thWifiManaged.join();
 								
 								//enable
-								Thread.sleep(5000);
+								Thread.sleep(2000);
 								Sdn_Service.iIdBestAp = -1;
 								Sdn_Service.strGBestAP = null;
 								Sdn_Service.iInitconn = 0;
@@ -238,7 +248,7 @@ public class WifiEnableService extends BroadcastReceiver {
 				}
 			}
 			
-		}*/
+		}
 	}
 	
 	public static boolean isThread = true;
