@@ -110,8 +110,8 @@ public class Sdn_Service extends Service{
 		Log.d(TAG, "strSenderId: " + strSenderId);
 		GCMRegistrar.checkDevice(this);
 		GCMRegistrar.checkManifest(this);
-		//GCMRegistrar.register(this, config.getSenderId());
-		
+//		GCMRegistrar.register(this, config.getSenderId());
+
 		//init variable
 		iInitconn = 0;
 		strGBestAP = null;
