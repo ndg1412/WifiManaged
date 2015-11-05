@@ -158,6 +158,7 @@ public class Sdn_Service extends Service{
 			WifiEnableService.iDemManual = 0;
 			WifiEnableService.bScan = false;
 			Sdn_Service.strGBestAP = null;
+
 			CloseConnect();
 			bRun = false;
 			bttReqManagedApList = false;
