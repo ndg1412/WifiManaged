@@ -6,15 +6,20 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.google.android.gcm.GCMRegistrar;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.net.wifimanagedsdn.sqlite.DatabaseHandler;
+import com.net.wifimanagedsdn.sqlite.User;
 import com.net.wifimanagedsdn.util.Constan;
 import com.net.wifimanagedsdn.util.ReadFileConfig;
 import com.net.wifimanagedsdn.util.share;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -47,7 +52,7 @@ public class MainActivity extends Activity {
 	Switch swRunProcess;
 	Intent iSdn_service = null;
 	public boolean bRunProcess;
-	
+	public static User dbUser;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,6 +76,7 @@ public class MainActivity extends Activity {
 		//copy raw resource to sdcard
 		CopyResourceToFlash();		
 		Log.d(TAG, "wifi ip: " + nwNetwork.getWifiIp());
+//		checkGooglePlaySevices(this);
 		
 		//register device to gcm
 		/*ReadFileConfig config = new ReadFileConfig();
@@ -122,6 +128,7 @@ public class MainActivity extends Activity {
 			startService(iSdn_service);
 			Log.d(TAG, "Enable process load balancing in android");
 		}
+		dbUser = db.getUser();
 	}
 	
 	@Override
@@ -172,7 +179,7 @@ public class MainActivity extends Activity {
 //				try {
 //					WifiEnableService.iDemManual = 0;
 //					WifiEnableService.bScan = false;
-//					Sdn_Service.strGBestAP = null;
+//					Sdn_Service.strDataAP = null;
 //					Sdn_Service.CloseConnect();
 //					Sdn_Service.bRun = false;
 //					Sdn_Service.bttReqManagedApList = false;
@@ -209,7 +216,7 @@ public class MainActivity extends Activity {
 //				try {
 //					WifiEnableService.iDemManual = 0;
 //					WifiEnableService.bScan = false;
-//					Sdn_Service.strGBestAP = null;
+//					Sdn_Service.strDataAP = null;
 //					Sdn_Service.CloseConnect();
 //					Sdn_Service.bRun = false;
 //					Sdn_Service.bttReqManagedApList = false;
@@ -332,7 +339,7 @@ public class MainActivity extends Activity {
 			try {
 				WifiEnableService.iDemManual = 0;
 				WifiEnableService.bScan = false;
-				Sdn_Service.strGBestAP = null;
+				Sdn_Service.strDataAP = null;
 				Sdn_Service.CloseConnect();
 				Sdn_Service.bRun = false;
 				Sdn_Service.bttReqManagedApList = false;
@@ -355,10 +362,11 @@ public class MainActivity extends Activity {
 			}
 			if((db.getUser() != null) && (db.getTime() != null) && (wifi.isWifiEnabled())) {
 				Log.d(TAG, "========================onActivityResult====================================>");
+				dbUser = db.getUser();
 				try {				
 					Thread.sleep(2000);
-					Sdn_Service.iIdBestAp = -1;
-					Sdn_Service.strGBestAP = null;
+					Sdn_Service.iIdAp = -1;
+					Sdn_Service.strDataAP = null;
 					Sdn_Service.iInitconn = 0;
 					Sdn_Service.brnWifiManaged = true;
 					Sdn_Service.bttReqManagedApList = true;
@@ -380,8 +388,8 @@ public class MainActivity extends Activity {
 		PackageManager pm = this.getPackageManager();
 
 		pm.setComponentEnabledSetting(receiver,
-		PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-		PackageManager.DONT_KILL_APP);
+				PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+				PackageManager.DONT_KILL_APP);
 		Toast.makeText(this, "Disabled broadcst receiver", Toast.LENGTH_SHORT).show();
 	}
 	
@@ -390,7 +398,30 @@ public class MainActivity extends Activity {
 		PackageManager pm = this.getPackageManager();
 
 		pm.setComponentEnabledSetting(receiver,
-		PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-		PackageManager.DONT_KILL_APP);
+				PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+				PackageManager.DONT_KILL_APP);
 	}
+
+	public static boolean checkGooglePlaySevices(final Activity activity) {
+		final int googlePlayServicesCheck = GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity);
+		switch (googlePlayServicesCheck) {
+			case ConnectionResult.SUCCESS:
+				Toast.makeText(activity.getApplicationContext(), "Google play service running well", Toast.LENGTH_LONG).show();
+				return true;
+			case ConnectionResult.SERVICE_DISABLED:
+			case ConnectionResult.SERVICE_INVALID:
+			case ConnectionResult.SERVICE_MISSING:
+			case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
+				Dialog dialog = GooglePlayServicesUtil.getErrorDialog(googlePlayServicesCheck, activity, 0);
+				dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+					@Override
+					public void onCancel(DialogInterface dialogInterface) {
+						activity.finish();
+					}
+				});
+				dialog.show();
+		}
+		return false;
+	}
+
 }

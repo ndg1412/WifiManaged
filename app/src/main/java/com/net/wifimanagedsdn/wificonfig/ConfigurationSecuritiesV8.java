@@ -8,7 +8,6 @@ import android.net.wifi.WifiConfiguration.AuthAlgorithm;
 import android.net.wifi.WifiConfiguration.KeyMgmt;
 import android.util.Log;
 
-@SuppressLint("NewApi")
 public class ConfigurationSecuritiesV8 extends ConfigurationSecurities {
 
 	public static final int SECURITY_NONE = 0;
@@ -22,7 +21,7 @@ public class ConfigurationSecuritiesV8 extends ConfigurationSecurities {
 
 	private static final String TAG = "ConfigurationSecuritiesV14";
 
-	private static int getSecurity(WifiConfiguration config) {
+	public static int getSecurity(WifiConfiguration config) {
 		if (config.allowedKeyManagement.get(KeyMgmt.WPA_PSK)) {
 			return SECURITY_PSK;
 		}

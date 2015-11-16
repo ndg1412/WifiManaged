@@ -64,7 +64,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 				if(!Sdn_Service.brnWifiManaged) {
 					WifiEnableService.iDemManual = 0;
 					WifiEnableService.bScan = false;
-					Sdn_Service.strGBestAP = null;
+					Sdn_Service.strDataAP = null;
 					Sdn_Service.CloseConnect();
 					Sdn_Service.bRun = false;
 					Sdn_Service.bttReqManagedApList = false;
@@ -92,8 +92,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 					wifi.saveConfiguration();
 					Thread.sleep(2000);
 					
-					Sdn_Service.iIdBestAp = -1;
-					Sdn_Service.strGBestAP = null;
+					Sdn_Service.iIdAp = -1;
+					Sdn_Service.strDataAP = null;
 					Sdn_Service.iInitconn = 0;
 					Sdn_Service.brnWifiManaged = true;
 					Sdn_Service.bttReqManagedApList = true;
