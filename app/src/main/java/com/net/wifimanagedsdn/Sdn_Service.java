@@ -64,6 +64,7 @@ public class Sdn_Service extends Service{
 	Timer tiPeriodicRequest, tiPeriodicReport;
 	//	static boolean bthWifiManaged = true;
 	static Thread thWifiManaged;
+	static Thread thKickOut = null;
 	static Handler hanAlert = new Handler();
 	static Handler hanToast = new Handler();
 	static Timer tiReqManagedAPList = null;
@@ -962,6 +963,11 @@ public class Sdn_Service extends Service{
 						long timetmp = System.currentTimeMillis();
 						if((timetmp - time) >= Constan.TIME_CONNECT_TO_AP)
 							break;
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
 					try {
 						Thread.sleep(3000);
@@ -974,7 +980,8 @@ public class Sdn_Service extends Service{
 					Log.d(TAG, "wifi info ssid: " + wifiinfo.getSSID());
 					Log.d(TAG, "wifi info mac: " + wifiinfo.getBSSID());
 					if((wifiinfo != null) && (!wifiinfo.getSSID().contains(strSsid) || !wifiinfo.getBSSID().toUpperCase().equals(strMac))) {
-						return;
+						wifi.disconnect();
+						continue;
 					}
 					Log.d(TAG,"rnWifiManaged: wifi ip: " + nwNetwork.getWifiIp());
 					Log.d(TAG, "ConnectManagedAp sec 222222222222222222222222222222222222222");
